@@ -31,7 +31,7 @@ body {
   font-family: sans-serif;
 }
 .main-view {
-  height: 100vh;
+  height: 80vh;
   display: flex;
 }
 </style>
