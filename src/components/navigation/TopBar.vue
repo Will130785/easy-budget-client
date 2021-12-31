@@ -18,8 +18,8 @@ export default {
 
 <style scoped>
 .topbar {
-  height: 7.5rem;
-  background-color: #000;
+  height: 5rem;
+  background-color: #0076b6;
 }
 .sidebar-toggle {
   z-index: 10;

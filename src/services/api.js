@@ -4,12 +4,12 @@ const registerUser = async data => {
   try {
     const res = await axios.post(`http://localhost:4000/register`, data)
     if (res && res.data) {
-      console.log(res)
+      return res
     } else {
-      console.log('There was an error with the request')
+      return null
     }
   } catch (err) {
-    console.log(err)
+    return null
   }
 }
 

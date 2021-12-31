@@ -18,7 +18,7 @@ export default {
   position: absolute;
   width: 40rem;
   height: 100%;
-  background-color: #000;
+  background-color: #0076b6;
   left: -100%;
   transition: all .3s ease
 }

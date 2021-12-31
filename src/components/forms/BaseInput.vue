@@ -1,6 +1,6 @@
 <template>
   <div class="form-group">
-    <input :class="formControl" 
+    <input :class="[formControl, { 'input-error' : inputErrorClass }]" 
       :id="inputId" 
       :type="inputType"
       @input="updateInput"
@@ -15,7 +15,8 @@ export default {
     inputId: String,
     inputType: String,
     labelContent: String,
-    formControl: String
+    formControl: String,
+    inputErrorClass: Boolean
   },
   methods: {
     updateInput (e) {
@@ -61,5 +62,9 @@ input:focus, input:active {
   border: .2rem solid #0076b6;
   padding: 1.4rem;
   background-color: #0076b62f;
+}
+.input-error {
+  border: 2px solid rgb(240, 77, 77) !important;
+  padding: 1.4rem;
 }
 </style>

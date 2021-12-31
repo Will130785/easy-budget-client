@@ -21,6 +21,10 @@
         buttonClass="standard-button"
         btnContent="Login"
       />
+      <!-- Register link -->
+      <div class="reg-link">
+        <router-link to="/register">Or click here to register</router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -53,5 +57,11 @@ export default {
   width: 40%;
   padding: 2rem;
   box-shadow: 5px 5px 15px 5px #000000;
+}
+.reg-link {
+  margin-top: 3rem;
+}
+.reg-link a {
+  color: #0076b6;
 }
 </style>
