@@ -63,11 +63,11 @@
         @btnClicked="handleRegister"
       />
       <!-- Reg status messages -->
-      <div class="reg-status"
-        :class="{ 'reg-success' : regStatus === 'success', 'reg-error' : regStatus === 'error' }"
+      <div class="submit-status"
+        :class="{ 'submit-success' : submitStatus === 'success', 'submit-error' : submitStatus === 'error' }"
       >
-        <p v-if="regStatus === 'success'">{{ regMsg }}</p>
-        <p v-if="regStatus === 'error'">{{ regMsg }}</p>
+        <p v-if="submitStatus === 'success'">{{ submitMsg }}</p>
+        <p v-if="submitStatus === 'error'">{{ submitMsg }}</p>
       </div>
     </div>
   </div>
@@ -98,8 +98,8 @@ export default {
         password: '',
         passwordConfirm: '' 
       },
-      regStatus: '',
-      regMsg: ''
+      submitStatus: '',
+      submitMsg: ''
     }
   },
   mounted () {
@@ -117,23 +117,23 @@ export default {
           const res = await registerUser(this.form)
           if (res && res.data) {
             console.log(res)
-            this.regStatus = 'success'
-            this.regMsg = 'You have been registered and will now be redirected to the login page'
+            this.submitStatus = 'success'
+            this.submitMsg = 'You have been registered and will now be redirected to the login page'
             setTimeout(() => {
               this.$router.push('/')
             }, 3000)
           } else {
             console.log(res)
-            this.regStatus = 'error'
-            this.regMsg = 'There was an error registering you, please try again later'
+            this.submitStatus = 'error'
+            this.submitMsg = 'There was an error registering you, please try again later'
           }
         } catch (err) {
-          this.regStatus = 'error'
-          this.regMsg = 'There was an error registering you, please try again later'
+          this.submitStatus = 'error'
+          this.submitMsg = 'There was an error registering you, please try again later'
         }
       } else {
-        this.regStatus = 'error'
-        this.regMsg = 'Please ensure all fields are complete and passwords match'
+        this.submitStatus = 'error'
+        this.submitMsg = 'Please ensure all fields are complete and passwords match'
       }
     }
   },
@@ -177,15 +177,15 @@ export default {
   padding: 2rem;
   box-shadow: 5px 5px 15px 5px #000000;
 }
-.reg-success, .reg-error {
+.submit-success, .submit-error {
   margin-top: 3rem;
   padding: 1rem;
   color: white;
 }
-.reg-success {
+.submit-success {
   background-color: rgb(134, 240, 101);
 }
-.reg-error {
+.submit-error {
   background-color: rgb(240, 77, 77);
 }
 </style>

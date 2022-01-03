@@ -8,6 +8,8 @@
         inputId="username"
         labelContent="Username"
         formControl="login-input"
+        v-model="v$.form.username.$model"
+        :inputErrorClass="v$.form.username.$error"
       />
       <!-- Password -->
       <BaseInput 
@@ -15,12 +17,22 @@
         inputId="password"
         labelContent="Password"
         formControl="login-input"
+        v-model="v$.form.password.$model"
+        :inputErrorClass="v$.form.password.$error"
       />
       <!-- Login btn -->
       <BaseBtn
         buttonClass="standard-button"
         btnContent="Login"
+        @btnClicked="handleLogin"
       />
+      <!-- Login status messages -->
+      <div class="submit-status"
+        :class="{ 'submit-success' : submitStatus === 'success', 'submit-error' : submitStatus === 'error' }"
+      >
+        <p v-if="submitStatus === 'success'">{{ submitMsg }}</p>
+        <p v-if="submitStatus === 'error'">{{ submitMsg }}</p>
+      </div>
       <!-- Register link -->
       <div class="reg-link">
         <router-link to="/register">Or click here to register</router-link>
@@ -32,14 +44,68 @@
 <script>
 import BaseInput from '../components/forms/BaseInput.vue'
 import BaseBtn from '../components/buttons/BaseBtn.vue'
+import { mapActions } from 'vuex'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
   components: {
     BaseInput,
     BaseBtn
   },
   data () {
     return {
-      title: 'Enter your login details'
+      title: 'Enter your login details',
+      form: {
+        username: '',
+        password: ''
+      },
+      submitStatus: '',
+      submitMsg: ''
+    }
+  },
+  methods: {
+    ...mapActions(['loginAction']),
+    async handleLogin () {
+      // Check all fields are complete
+      this.v$.$touch()
+      if (!this.v$.$invalid) {
+        try {
+          const res = await this.loginAction(this.form)
+          if (res) {
+            console.log('***', res)
+            this.submitStatus = 'success'
+            this.submitMsg = 'You have been logged in and will now be redirected to your dashboard'
+            setTimeout(() => {
+              this.$router.push('/dashboard')
+            }, 3000)
+          } else {
+            this.submitStatus = 'error'
+            this.submitMsg = 'There was an error logging you in, please try again later'
+          }
+        } catch (err) {
+          console.log(err)
+          this.submitStatus = 'error'
+          this.submitMsg = 'There was an error logging you in, please try again later'
+        }
+      } else {
+        this.submitStatus = 'error'
+        this.submitMsg = 'Please ensure all fields are complete'
+      }
+    }
+  },
+  validations () {
+    return {
+      form: {
+        username: {
+          required
+        },
+        password: {
+          required
+        }
+      }
     }
   }
 }
@@ -63,5 +129,16 @@ export default {
 }
 .reg-link a {
   color: #0076b6;
+}
+.submit-success, .submit-error {
+  margin-top: 3rem;
+  padding: 1rem;
+  color: white;
+}
+.submit-success {
+  background-color: rgb(134, 240, 101);
+}
+.submit-error {
+  background-color: rgb(240, 77, 77);
 }
 </style>

@@ -1,16 +1,23 @@
 <template>
   <nav class="topbar">
-    <button class="sidebar-toggle" @click="toggleSidebar">X</button>
+    <button v-if="isLoggedIn" class="sidebar-toggle" @click="toggleSidebar">X</button>
+    <button v-if="isLoggedIn" class="sidebar-toggle" @click="handleLogout">Logout</button>
   </nav>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
+  computed: {
+    ...mapGetters(['isLoggedIn'])
+  },
   methods: {
-    ...mapActions(['sidebarStatusAction']),
+    ...mapActions(['sidebarStatusAction', 'logoutAction']),
     toggleSidebar () {
       this.sidebarStatusAction()
+    },
+    handleLogout () {
+      this.logoutAction()
     }
   }
 }
@@ -20,6 +27,9 @@ export default {
 .topbar {
   height: 5rem;
   background-color: #0076b6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .sidebar-toggle {
   z-index: 10;

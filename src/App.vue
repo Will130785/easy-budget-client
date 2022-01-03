@@ -9,10 +9,18 @@
 <script>
 import TopBar from './components/navigation/TopBar.vue'
 import SideBar from './components/navigation/SideBar.vue'
+import axios from 'axios'
 export default {
   components: {
     TopBar,
     SideBar
+  },
+  mounted () {
+    // Check if already logged in and set http defaults
+    const token = localStorage.getItem('token')
+    if (token) {
+      axios.defaults.headers.common.Authorization = token
+    }
   }
 }
 </script>
